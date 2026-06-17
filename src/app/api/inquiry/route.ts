@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 import { saveInquiry, deleteInquiry } from "@/lib/db";
 import { DatabaseSync } from "node:sqlite";
 import path from "path";
@@ -7,15 +6,31 @@ import path from "path";
 // Initialize a separate read-only or quick-query connection for duplicate checking
 const dbPath = path.join(process.cwd(), "inquiries.db");
 
-// Helper function to retry asynchronous operations
+// Helper function to retry asynchronous operations, skipping permanent failures
 async function retry<T>(operation: () => Promise<T>, maxAttempts = 3, delayMs = 1000): Promise<T> {
   let lastError: any;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
       return await operation();
-    } catch (error) {
+    } catch (error: any) {
       lastError = error;
-      console.warn(`[SMTP] Attempt ${attempt} failed. Error:`, error);
+      console.warn(`[Formspree] Attempt ${attempt} failed. Error:`, error);
+      
+      // Stop retrying on permanent HTTP client errors (e.g. 404 Form Not Found or 400 Bad Request)
+      const isPermanentError = 
+        error.message && (
+          error.message.includes("status 400") || 
+          error.message.includes("status 404") || 
+          error.message.includes("status 403") ||
+          error.message.toLowerCase().includes("not found") ||
+          error.message.toLowerCase().includes("bad request")
+        );
+
+      if (isPermanentError) {
+        console.warn(`[Formspree] Permanent error detected. Aborting further retry attempts.`);
+        throw error;
+      }
+
       if (attempt < maxAttempts) {
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       }
@@ -27,7 +42,7 @@ async function retry<T>(operation: () => Promise<T>, maxAttempts = 3, delayMs = 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, service, message } = body;
+    const { name, email, phone, service, message, company } = body;
 
     // 1. Server-side validation
     if (!name || name.trim().length < 2 || name.trim().length > 100) {
@@ -37,7 +52,7 @@ export async function POST(request: Request) {
     if (!email || !emailRegex.test(email)) {
       return NextResponse.json({ success: false, error: "A valid email address is required." }, { status: 400 });
     }
-    // Simple phone validator allowing numbers, spaces, plus, hyphens, and parentheses
+    // Phone validator allowing numbers, spaces, plus, hyphens, and parentheses
     const phoneRegex = /^[+]?[0-9\s\-()]{8,20}$/;
     if (!phone || !phoneRegex.test(phone.trim())) {
       return NextResponse.json({ success: false, error: "A valid phone number is required (8-20 characters)." }, { status: 400 });
@@ -53,7 +68,13 @@ export async function POST(request: Request) {
     const cleanEmail = email.trim();
     const cleanPhone = phone.trim();
     const cleanService = service.trim();
+    const cleanCompany = company ? company.trim() : "";
     const cleanMessage = message ? message.trim() : "";
+
+    // Concatenate company details for SQLite persistence
+    const dbMessage = cleanCompany 
+      ? `Company: ${cleanCompany}\n\n${cleanMessage}`
+      : cleanMessage;
 
     // 2. Prevent duplicate submissions (within last 30 seconds)
     const thirtySecondsAgo = new Date(Date.now() - 30 * 1000).toISOString();
@@ -72,14 +93,13 @@ export async function POST(request: Request) {
       }
     } catch (dbError) {
       console.error("[DB] Duplicate check failed:", dbError);
-      // Proceed if check fails, but log it
     }
 
     // 3. Generate Metadata
     const inquiryId = `INQ-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
     const dateTime = new Date().toISOString();
 
-    // 4. Save to Database first
+    // 4. Save to SQLite Database first (ensuring local record safety)
     try {
       saveInquiry({
         inquiryId,
@@ -87,7 +107,7 @@ export async function POST(request: Request) {
         email: cleanEmail,
         phone: cleanPhone,
         service: cleanService,
-        message: cleanMessage,
+        message: dbMessage,
         dateTime,
       });
       console.log(`[DB] Successfully saved inquiry: ${inquiryId}`);
@@ -96,87 +116,49 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Failed to persist inquiry details. Please try again." }, { status: 500 });
     }
 
-    // 5. Send emails
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS;
-    const ownerEmail = process.env.OWNER_EMAIL || "seowebagency.in@gmail.com";
-
-    // Validate email configuration
-    if (!smtpUser || !smtpPass) {
-      console.error("[SMTP] Credentials missing. Rolling back database insert...");
-      deleteInquiry(inquiryId);
-      return NextResponse.json(
-        { success: false, error: "Email notification configuration is incomplete. Owner/Admin has been logged." },
-        { status: 500 }
-      );
-    }
-
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-    });
+    // 5. Send payload to Formspree endpoint
+    const formspreeUrl = process.env.FORMSPREE_URL || "https://formspree.io/f/mgobbpqz";
 
     try {
-      // Format Owner Email
-      const formattedDate = new Date(dateTime).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " (IST)";
-      const ownerBody = `A new inquiry has been received.
-
-Name: ${cleanName}
-Email: ${cleanEmail}
-Phone: ${cleanPhone}
-Service: ${cleanService}
-Message: ${cleanMessage}
-Submitted At: ${formattedDate}
-
-Inquiry ID: ${inquiryId}`;
-
-      const userBody = `Dear ${cleanName},
-
-Thank you for contacting SEOWebAgency.
-
-We have successfully received your request. Our team will review your inquiry and contact you shortly.
-
-Regards,
-SEOWebAgency Team
-
----
-Inquiry ID: ${inquiryId}`;
-
-      // Run both mail dispatches with retries
-      console.log(`[SMTP] Dispatching owner notification for: ${inquiryId}`);
-      await retry(async () => {
-        await transporter.sendMail({
-          from: `"SEOWebAgency Portal" <${smtpUser}>`,
-          to: ownerEmail,
-          subject: "New Consultation Request - SEOWebAgency",
-          text: ownerBody,
-        });
-      });
-      console.log(`[SMTP] Owner notification sent for: ${inquiryId}`);
-
-      console.log(`[SMTP] Dispatching user confirmation for: ${inquiryId}`);
-      await retry(async () => {
-        await transporter.sendMail({
-          from: `"SEOWebAgency Team" <${smtpUser}>`,
-          to: cleanEmail,
-          subject: "Strategy Call Confirmation - SEOWebAgency",
-          text: userBody,
-        });
-      });
-      console.log(`[SMTP] User confirmation sent for: ${inquiryId}`);
-
-    } catch (mailError: any) {
-      console.error("[SMTP] Delivery failed after retries. Rolling back database record...", mailError);
+      console.log(`[Formspree] Forwarding inquiry ${inquiryId} to ${formspreeUrl}`);
       
-      // ROLLBACK: delete the database record so that we do not show a false success message
+      await retry(async () => {
+        const formspreeResponse = await fetch(formspreeUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({
+            "Full Name": cleanName,
+            "Email Address": cleanEmail,
+            "Phone Number": cleanPhone,
+            "Service Interested In": cleanService,
+            "Company Name": cleanCompany || "N/A",
+            "Message": cleanMessage,
+            "Inquiry ID": inquiryId,
+            "Submitted At": new Date(dateTime).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) + " (IST)",
+          }),
+        });
+
+        let formspreeResult: any = {};
+        try {
+          formspreeResult = await formspreeResponse.json();
+        } catch (parseErr) {
+          // Response is not JSON
+        }
+
+        if (!formspreeResponse.ok || (formspreeResult && formspreeResult.ok === false)) {
+          const errMsg = formspreeResult.error || `HTTP status ${formspreeResponse.status}`;
+          throw new Error(errMsg);
+        }
+      });
+
+      console.log(`[Formspree] Successfully delivered inquiry: ${inquiryId}`);
+    } catch (formspreeError: any) {
+      console.error("[Formspree] Delivery failed. Rolling back database record...", formspreeError);
+      
+      // TRANSACTION ROLLBACK: remove local SQLite row since mailer dispatch failed
       try {
         deleteInquiry(inquiryId);
         console.log(`[DB] Rolled back inquiry: ${inquiryId}`);
@@ -185,7 +167,10 @@ Inquiry ID: ${inquiryId}`;
       }
 
       return NextResponse.json(
-        { success: false, error: `Notification delivery failed. Please verify your details and try again. (${mailError.message || "Network Timeout"})` },
+        { 
+          success: false, 
+          error: `Formspree submission failed: ${formspreeError.message || "Connection timeout"}. Inquiry rolled back.` 
+        },
         { status: 500 }
       );
     }
@@ -193,7 +178,7 @@ Inquiry ID: ${inquiryId}`;
     return NextResponse.json({
       success: true,
       inquiryId,
-      message: "Consultation booked successfully. A confirmation email has been dispatched.",
+      message: "Thank you for contacting SEOWebAgency. We have received your inquiry and our team will contact you shortly.",
     });
 
   } catch (err: any) {

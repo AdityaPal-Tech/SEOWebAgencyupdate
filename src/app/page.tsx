@@ -51,6 +51,7 @@ export default function Home() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [submittedInquiryId, setSubmittedInquiryId] = useState("");
 
   // Counter stats for Hero
   const [stats, setStats] = useState({ projects: 0, increase: 0, experts: 0 });
@@ -122,20 +123,22 @@ export default function Home() {
           name: formState.name,
           email: formState.email,
           phone: formState.phone,
+          company: formState.website || "N/A",
           service: formState.service,
-          message: formState.message ? `${formState.message}\nWebsite: ${formState.website || "N/A"}` : `Website: ${formState.website || "N/A"}`,
+          message: formState.message,
         }),
       });
 
       const result = await response.json();
 
       if (result.success) {
+        setSubmittedInquiryId(result.inquiryId);
         setFormSubmitted(true);
       } else {
         setErrorMessage(result.error || "An error occurred during submission.");
       }
     } catch (err) {
-      console.error("[SMTP] Error submitting consultation:", err);
+      console.error("[Formspree] Error submitting consultation:", err);
       setErrorMessage("Network error. Please verify your internet connection and try again.");
     } finally {
       setIsSubmitting(false);
@@ -567,10 +570,10 @@ export default function Home() {
                            />
                          </div>
                          <div>
-                           <label className="block text-xs font-bold opacity-60 uppercase mb-2">Website URL</label>
+                           <label className="block text-xs font-bold opacity-60 uppercase mb-2">Company / Website (Optional)</label>
                            <input
                              type="text"
-                             placeholder="example.com"
+                             placeholder="Company name or URL"
                              value={formState.website}
                              onChange={(e) => setFormState({ ...formState, website: e.target.value })}
                              className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/5 bg-white/40 dark:bg-black/40 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
@@ -640,18 +643,19 @@ export default function Home() {
                        </div>
                        <h3 className="text-2xl font-extrabold text-black dark:text-white">Strategy Call Scheduled!</h3>
                        <p className="text-sm opacity-60 mt-3 max-w-sm mx-auto leading-6 text-black dark:text-white">
-                         Hi {formState.name}, we have received your request for {formState.service}. An invitation with meeting details has been dispatched to {formState.email}.
+                         Thank you for contacting SEOWebAgency. We have received your inquiry and our team will contact you shortly.
                        </p>
                        <div className="mt-5 p-3 rounded-xl bg-black/40 border border-white/5 font-mono text-[10px] text-cyan-400 text-left max-w-sm mx-auto">
-                         <p className="opacity-50">// SMTP DISPATCH SUCCESS</p>
-                         <p className="mt-1 text-emerald-400">✓ Handshake verified with smtp.gmail.com</p>
-                         <p className="text-emerald-400">✓ Confirmation sent to {formState.email}</p>
-                         <p className="text-emerald-400">✓ Owner notification dispatched successfully</p>
-                         <p className="text-zinc-500">Service: {formState.service} // Saved to inquiries.db</p>
+                         <p className="opacity-50">// FORMSPREE API DISPATCH SUCCESS</p>
+                         <p className="mt-1 text-emerald-400">✓ Connection verified with formspree.io</p>
+                         <p className="text-emerald-400">✓ Inquiry payload delivered successfully</p>
+                         <p className="text-emerald-400">✓ Saved to local inquiries.db</p>
+                         <p className="text-zinc-500">Inquiry ID: {submittedInquiryId || "N/A"}</p>
                        </div>
                        <button
                          onClick={() => {
                            setFormState({ name: "", email: "", phone: "", website: "", service: "SEO Services", message: "" });
+                           setSubmittedInquiryId("");
                            setFormSubmitted(false);
                          }}
                          className="mt-8 px-6 py-2.5 rounded-xl border border-black/10 dark:border-white/10 text-xs font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-all text-black dark:text-white cursor-pointer"
