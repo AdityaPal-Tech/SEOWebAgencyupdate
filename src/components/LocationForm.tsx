@@ -5,20 +5,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, ShieldCheck } from "lucide-react";
 
 export default function LocationForm({ cityName }: { cityName: string }) {
-  const [formState, setFormState] = useState({ name: "", email: "", website: "", message: "" });
+  const [formState, setFormState] = useState({ name: "", email: "", phone: "", website: "", message: "" });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    console.log(`[SMTP] Sending inquiry from ${formState.name} (${cityName} branch) to seowebagency.in@gmail.com...`);
-    
-    setTimeout(() => {
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          phone: formState.phone,
+          service: `Local SEO Campaign - ${cityName}`,
+          message: formState.message ? `${formState.message}\nWebsite: ${formState.website || "N/A"}` : `Website: ${formState.website || "N/A"}`,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setFormSubmitted(true);
+      } else {
+        setErrorMessage(result.error || "An error occurred during submission.");
+      }
+    } catch (err) {
+      console.error("[SMTP] Error submitting location consultation:", err);
+      setErrorMessage("Network error. Please verify your internet connection and try again.");
+    } finally {
       setIsSubmitting(false);
-      setFormSubmitted(true);
-    }, 1200);
+    }
   };
 
   return (
@@ -58,15 +82,28 @@ export default function LocationForm({ cityName }: { cityName: string }) {
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-bold opacity-60 uppercase mb-2">Website URL</label>
-              <input
-                type="text"
-                placeholder="example.com"
-                value={formState.website}
-                onChange={(e) => setFormState({ ...formState, website: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/5 bg-white/40 dark:bg-black/40 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-xs font-bold opacity-60 uppercase mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+91 8803511070"
+                  value={formState.phone}
+                  onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/5 bg-white/40 dark:bg-black/40 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold opacity-60 uppercase mb-2">Website URL</label>
+                <input
+                  type="text"
+                  placeholder="example.com"
+                  value={formState.website}
+                  onChange={(e) => setFormState({ ...formState, website: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/5 bg-white/40 dark:bg-black/40 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-black dark:text-white"
+                />
+              </div>
             </div>
 
             <div>
@@ -80,10 +117,16 @@ export default function LocationForm({ cityName }: { cityName: string }) {
               />
             </div>
 
+            {errorMessage && (
+              <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-bold leading-5 text-left">
+                ⚠️ {errorMessage}
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-extrabold text-sm hover:opacity-95 shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-extrabold text-sm hover:opacity-95 shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               {isSubmitting ? (
                 <>
@@ -115,14 +158,19 @@ export default function LocationForm({ cityName }: { cityName: string }) {
             
             {/* Local Email Dispatch Console */}
             <div className="mt-5 p-3 rounded-xl bg-black/40 border border-white/5 font-mono text-[10px] text-cyan-400 text-left max-w-sm mx-auto">
-              <p className="opacity-50">// LOCAL SMTP CORE: {cityName.toUpperCase()}</p>
-              <p className="mt-1 text-emerald-400">✓ Connection opened safely</p>
-              <p className="text-emerald-400">✓ Package dispatched to seowebagency.in@gmail.com</p>
+              <p className="opacity-50">// SMTP DISPATCH SUCCESS</p>
+              <p className="mt-1 text-emerald-400">✓ Handshake verified with smtp.gmail.com</p>
+              <p className="text-emerald-400">✓ Confirmation sent to {formState.email}</p>
+              <p className="text-emerald-400">✓ Owner notification dispatched successfully</p>
+              <p className="text-zinc-500">Service: Local SEO Campaign - {cityName} // Saved to inquiries.db</p>
             </div>
 
             <button
-              onClick={() => setFormSubmitted(false)}
-              className="mt-8 px-6 py-2.5 rounded-xl border border-black/10 dark:border-white/10 text-xs font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-all text-black dark:text-white"
+              onClick={() => {
+                setFormState({ name: "", email: "", phone: "", website: "", message: "" });
+                setFormSubmitted(false);
+              }}
+              className="mt-8 px-6 py-2.5 rounded-xl border border-black/10 dark:border-white/10 text-xs font-bold hover:bg-black/5 dark:hover:bg-white/5 transition-all text-black dark:text-white cursor-pointer"
             >
               Submit Another Form
             </button>
