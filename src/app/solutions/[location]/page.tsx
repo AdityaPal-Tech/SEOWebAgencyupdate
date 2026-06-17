@@ -326,7 +326,7 @@ export default async function LocationPage({ params }: PageProps) {
       <footer className="relative py-12 border-t border-black/5 dark:border-white/5 bg-zinc-50 dark:bg-black/40">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs opacity-60 font-semibold gap-4">
           <div className="flex items-center gap-3">
-            <span>&copy; 2023 SEOWebAgency.</span>
+            <span>&copy; 2023 SEOWebAgency. All rights reserved.</span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-extrabold tracking-wider uppercase animate-pulse-slow">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
               All Systems Nominal
