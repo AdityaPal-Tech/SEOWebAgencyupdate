@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { MapPin, Zap, Star } from "lucide-react";
+import { Instagram } from "@/components/InstagramIcon";
 
 import Navbar from "@/components/Navbar";
 import ThreeCanvas from "@/components/ThreeCanvas";
@@ -311,6 +312,12 @@ export default async function LocationPage({ params }: PageProps) {
                     </div>
                     <span>Email: seowebagency.in@gmail.com</span>
                   </a>
+                  <a href="https://instagram.com/seoweb_agency" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-xs font-extrabold hover:text-primary transition-all">
+                    <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-500 shrink-0">
+                      <Instagram className="w-4 h-4" />
+                    </div>
+                    <span>Instagram: @seoweb_agency</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -332,9 +339,15 @@ export default async function LocationPage({ params }: PageProps) {
               All Systems Nominal
             </span>
           </div>
-          <span className="text-[10px] opacity-75 font-mono uppercase tracking-wider bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-md border border-black/5 dark:border-white/5">
-            {city.name} Office // SSL Secured
-          </span>
+          <div className="flex items-center gap-4">
+            <a href="https://instagram.com/seoweb_agency" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors font-bold text-pink-500 flex items-center gap-1">
+              <Instagram className="w-3.5 h-3.5" />
+              <span>Instagram</span>
+            </a>
+            <span className="text-[10px] opacity-75 font-mono uppercase tracking-wider bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-md border border-black/5 dark:border-white/5">
+              {city.name} Office // SSL Secured
+            </span>
+          </div>
         </div>
       </footer>
 

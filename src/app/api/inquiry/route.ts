@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
-import { saveInquiry, deleteInquiry } from "@/lib/db";
-import { DatabaseSync } from "node:sqlite";
-import path from "path";
-
-// Initialize a separate read-only or quick-query connection for duplicate checking
-const dbPath = path.join(process.cwd(), "inquiries.db");
+import { saveInquiry, deleteInquiry, checkDuplicateInquiry } from "@/lib/db";
 
 // Helper function to retry asynchronous operations, skipping permanent failures
 async function retry<T>(operation: () => Promise<T>, maxAttempts = 3, delayMs = 1000): Promise<T> {
@@ -79,13 +74,7 @@ export async function POST(request: Request) {
     // 2. Prevent duplicate submissions (within last 30 seconds)
     const thirtySecondsAgo = new Date(Date.now() - 30 * 1000).toISOString();
     try {
-      const checkDb = new DatabaseSync(dbPath);
-      const dupCheckStmt = checkDb.prepare(`
-        SELECT COUNT(*) as count FROM inquiries 
-        WHERE email = ? AND phone = ? AND service = ? AND submitted_at > ?
-      `);
-      const result = dupCheckStmt.get(cleanEmail, cleanPhone, cleanService, thirtySecondsAgo) as { count: number };
-      if (result && result.count > 0) {
+      if (checkDuplicateInquiry(cleanEmail, cleanPhone, cleanService, thirtySecondsAgo)) {
         return NextResponse.json(
           { success: false, error: "Duplicate submission detected. Please wait 30 seconds before submitting again." },
           { status: 429 }

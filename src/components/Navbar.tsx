@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Moon, Sun, Laptop, MessageSquare, Calendar, Menu, X, Phone } from "lucide-react";
+import { Instagram } from "@/components/InstagramIcon";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
@@ -211,6 +212,17 @@ export default function Navbar() {
             <MessageSquare className="w-4 h-4 text-emerald-500" />
           </a>
 
+          {/* Instagram CTA */}
+          <a
+            href="https://instagram.com/seoweb_agency"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow us on Instagram"
+            className="p-2.5 rounded-full border border-pink-500/20 bg-pink-500/10 hover:bg-pink-500/20 dark:hover:bg-pink-500/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
+          >
+            <Instagram className="w-4 h-4 text-pink-500" />
+          </a>
+
           {/* Contact / Consultation CTA */}
           <a
             href="/#contact"
@@ -339,6 +351,16 @@ export default function Navbar() {
               >
                 <MessageSquare className="w-4.5 h-4.5 text-emerald-500" />
                 Chat on WhatsApp
+              </a>
+              <a
+                href="https://instagram.com/seoweb_agency"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 font-bold py-3 rounded-xl border border-pink-500/30 bg-pink-500/10 text-pink-600 dark:text-pink-400"
+              >
+                <Instagram className="w-4.5 h-4.5 text-pink-500" />
+                Follow on Instagram
               </a>
               <a
                 href="/#contact"

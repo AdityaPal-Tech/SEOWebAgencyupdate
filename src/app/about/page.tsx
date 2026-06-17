@@ -15,6 +15,7 @@ import {
   TrendingUp,
   Heart,
 } from "lucide-react";
+import { Instagram } from "@/components/InstagramIcon";
 import Navbar from "@/components/Navbar";
 import ThreeCanvas from "@/components/ThreeCanvas";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -308,7 +309,11 @@ export default function AboutPage() {
               All Systems Nominal
             </span>
           </div>
-          <div className="flex gap-6">
+          <div className="flex items-center gap-6">
+            <a href="https://instagram.com/seoweb_agency" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors text-pink-500 font-bold flex items-center gap-1">
+              <Instagram className="w-3.5 h-3.5" />
+              <span>Instagram</span>
+            </a>
             <a href="/terms" className="hover:text-primary transition-colors">
               Terms & Protocols
             </a>

@@ -19,6 +19,7 @@ import {
   Phone,
   Mail,
 } from "lucide-react";
+import { Instagram } from "@/components/InstagramIcon";
 
 import Navbar from "@/components/Navbar";
 import ThreeCanvas from "@/components/ThreeCanvas";
@@ -699,6 +700,10 @@ export default function Home() {
                 <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
                 <span>WhatsApp Chat</span>
               </a>
+              <a href="https://instagram.com/seoweb_agency" className="flex items-center gap-2 hover:text-primary transition-colors" target="_blank" rel="noopener noreferrer">
+                <Instagram className="w-3.5 h-3.5 text-pink-500" />
+                <span>Instagram (@seoweb_agency)</span>
+              </a>
             </div>
           </div>
 
@@ -744,6 +749,12 @@ export default function Home() {
               <li>
                 <a href="#testimonials" className="hover:text-primary transition-colors">
                   Client Reviews
+                </a>
+              </li>
+              <li>
+                <a href="/social-hub" className="hover:text-primary transition-colors text-indigo-500 dark:text-cyan-400 font-extrabold flex items-center gap-1">
+                  <span>AI Social Hub</span>
+                  <span className="text-[8px] bg-indigo-500/10 dark:bg-cyan-500/10 px-1.5 py-0.5 rounded uppercase font-black">NEW</span>
                 </a>
               </li>
             </ul>
