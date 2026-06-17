@@ -99,7 +99,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-12">
         {/* WebGL Canvas Background */}
         <div className="absolute inset-0 z-0">
           <ThreeCanvas />
@@ -208,9 +208,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-5 hidden lg:block perspective-[1000px]"
           >
-            <div className="glass-panel border-white/10 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 p-6 rounded-3xl relative animate-float shadow-2xl">
+            <div className="glass-panel border-white/10 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 p-5 rounded-3xl relative animate-float shadow-2xl">
               <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <div className="flex items-center gap-3 border-b border-black/5 dark:border-white/5 pb-4 mb-4">
+              <div className="flex items-center gap-3 border-b border-black/5 dark:border-white/5 pb-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-primary">
                   <LineChart className="w-5 h-5" />
                 </div>
@@ -248,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="relative py-24 border-t border-black/5 dark:border-white/5">
+      <section id="services" className="relative py-20 border-t border-black/5 dark:border-white/5">
         <div className="absolute top-0 right-1/4 w-[300px] h-[300px] glow-mesh-cyan glow-mesh rounded-full pointer-events-none opacity-40" />
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -268,11 +268,11 @@ export default function Home() {
       </section>
 
       {/* Solutions / Brand Values Section */}
-      <section id="solutions" className="relative py-24 border-t border-black/5 dark:border-white/5 bg-black/[0.01] dark:bg-white/[0.01]">
+      <section id="solutions" className="relative py-20 border-t border-black/5 dark:border-white/5 bg-black/[0.01] dark:bg-white/[0.01]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Visual Specs grid */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-5">
               {[
                 { title: "Trust", desc: "Verifiable transparent data signals.", icon: ShieldCheck, color: "text-indigo-500" },
                 { title: "Innovation", desc: "Next-gen AI scraping algorithms.", icon: Cpu, color: "text-cyan-500" },
@@ -283,7 +283,7 @@ export default function Home() {
                 return (
                   <div
                     key={val.title}
-                    className="glass-panel border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 p-5 rounded-2xl flex flex-col justify-between min-h-[160px] hover:border-primary/10 transition-colors duration-300"
+                    className="glass-panel border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 p-4 rounded-2xl flex flex-col justify-between min-h-[140px] hover:border-primary/10 transition-colors duration-300"
                   >
                     <ValIcon className={`w-8 h-8 ${val.color}`} />
                     <div>
@@ -307,7 +307,7 @@ export default function Home() {
                 Traditional agencies rely on manual updates and static reporting tables. SEOWebAgency builds custom tech stacks for each client, utilizing real-time API syncs, AI automated follow-up triggers, and programmatic SEO models to scale your traffic.
               </p>
 
-              <div className="mt-8 space-y-4 w-full">
+              <div className="mt-6 space-y-3 w-full">
                 {[
                   "Real-time visibility metrics synced to your Google Search Console",
                   "Fully customized headless page speeds running on edge networks",
@@ -327,10 +327,10 @@ export default function Home() {
       </section>
 
       {/* Results Dashboard Section */}
-      <section id="results" className="relative py-24 border-t border-black/5 dark:border-white/5">
+      <section id="results" className="relative py-20 border-t border-black/5 dark:border-white/5">
         <div className="absolute top-1/3 left-1/3 w-[350px] h-[350px] glow-mesh-indigo glow-mesh rounded-full pointer-events-none opacity-40" />
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-wider">
               Transparency
             </span>
@@ -347,17 +347,17 @@ export default function Home() {
       </section>
 
       {/* AI SEO Audit Tool Section */}
-      <section id="about" className="relative py-24 border-t border-black/5 dark:border-white/5 bg-black/[0.01] dark:bg-white/[0.01]">
+      <section id="about" className="relative py-20 border-t border-black/5 dark:border-white/5 bg-black/[0.01] dark:bg-white/[0.01]">
         <div className="max-w-7xl mx-auto px-6">
           <AuditTool />
         </div>
       </section>
 
       {/* Client Showcase Section */}
-      <section id="portfolio" className="relative py-24 border-t border-black/5 dark:border-white/5">
+      <section id="portfolio" className="relative py-20 border-t border-black/5 dark:border-white/5">
         <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] glow-mesh-indigo glow-mesh rounded-full pointer-events-none opacity-30" />
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-wider">
               Showcase
             </span>
@@ -374,9 +374,9 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="relative py-24 border-t border-black/5 dark:border-white/5">
+      <section id="testimonials" className="relative py-20 border-t border-black/5 dark:border-white/5">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-wider">
               Testimonials
             </span>
@@ -396,7 +396,7 @@ export default function Home() {
       <Pricing />
 
       {/* Contact & Consultation Booking Section */}
-      <section id="contact" className="relative py-24 border-t border-black/5 dark:border-white/5">
+      <section id="contact" className="relative py-20 border-t border-black/5 dark:border-white/5">
         <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] glow-mesh-indigo glow-mesh rounded-full pointer-events-none opacity-40" />
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
@@ -415,7 +415,7 @@ export default function Home() {
               </div>
 
               {/* Direct Contact Details Card */}
-              <div className="mt-8 p-6 rounded-2xl glass-panel border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 space-y-4">
+              <div className="mt-6 p-5 rounded-2xl glass-panel border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 space-y-3">
                 <div>
                   <span className="text-[10px] uppercase font-bold tracking-wider opacity-60">Prefer Direct Channels?</span>
                   <p className="text-sm font-semibold mt-2">Get in touch instantly via call, email, or chat.</p>
@@ -450,7 +450,7 @@ export default function Home() {
 
             {/* Booking Form */}
             <div className="lg:col-span-7">
-              <div className="glass-panel border-black/5 dark:border-white/5 bg-white/25 dark:bg-zinc-950/25 p-8 rounded-3xl relative overflow-hidden">
+              <div className="glass-panel border-black/5 dark:border-white/5 bg-white/25 dark:bg-zinc-950/25 p-6 rounded-3xl relative overflow-hidden">
                 <AnimatePresence mode="wait">
                   {!formSubmitted ? (
                     <motion.form
@@ -459,9 +459,9 @@ export default function Home() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       onSubmit={handleFormSubmit}
-                      className="space-y-5"
+                      className="space-y-4"
                     >
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-bold opacity-60 uppercase mb-2">Name</label>
                           <input
@@ -486,7 +486,7 @@ export default function Home() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-xs font-bold opacity-60 uppercase mb-2">Website URL</label>
                           <input
@@ -579,7 +579,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative py-12 border-t border-black/5 dark:border-white/5 bg-zinc-50 dark:bg-black/40">
+      <footer className="relative py-10 border-t border-black/5 dark:border-white/5 bg-zinc-50 dark:bg-black/40">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="flex flex-col items-start">
             <a href="#home" className="flex items-center gap-2 group mb-4 -my-4 overflow-visible">

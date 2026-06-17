@@ -139,14 +139,14 @@ export default function Pricing() {
   const currentPlans = activeTab === "seo" ? seoPlans : webPlans;
 
   return (
-    <section id="pricing" className="relative py-24 border-t border-black/5 dark:border-white/5 bg-zinc-50/50 dark:bg-black/[0.05] overflow-hidden">
+    <section id="pricing" className="relative py-20 border-t border-black/5 dark:border-white/5 bg-zinc-50/50 dark:bg-black/[0.05] overflow-hidden">
       {/* Visual background meshes */}
       <div className="absolute top-1/3 left-1/4 w-[350px] h-[350px] glow-mesh glow-mesh-indigo rounded-full pointer-events-none opacity-20 dark:opacity-30" />
       <div className="absolute bottom-1/3 right-1/4 w-[350px] h-[350px] glow-mesh glow-mesh-cyan rounded-full pointer-events-none opacity-20 dark:opacity-30" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-wider">
             Investment Plans
           </span>
@@ -158,7 +158,7 @@ export default function Pricing() {
           </p>
 
           {/* Toggle Switcher */}
-          <div className="grid grid-cols-2 p-1.5 rounded-2xl bg-black/5 dark:bg-zinc-900/50 border border-black/10 dark:border-white/5 mt-10 relative max-w-md mx-auto w-full backdrop-blur-md shadow-inner">
+          <div className="grid grid-cols-2 p-1.5 rounded-2xl bg-black/5 dark:bg-zinc-900/50 border border-black/10 dark:border-white/5 mt-8 relative max-w-md mx-auto w-full backdrop-blur-md shadow-inner">
             <button
               onClick={() => setActiveTab("seo")}
               className={`py-3 rounded-xl text-xs font-extrabold transition-colors duration-300 relative z-10 cursor-pointer ${
@@ -193,7 +193,7 @@ export default function Pricing() {
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-12">
           <AnimatePresence mode="wait">
             {currentPlans.map((plan, index) => (
               <motion.div
@@ -203,7 +203,7 @@ export default function Pricing() {
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                className={`glass-panel border rounded-3xl p-8 flex flex-col justify-between relative transition-all duration-300 ${
+                className={`glass-panel border rounded-3xl p-6 flex flex-col justify-between relative transition-all duration-300 ${
                   plan.popular
                     ? "border-primary bg-white/30 dark:bg-zinc-950/30 ring-2 ring-indigo-500/40 shadow-xl shadow-indigo-500/10"
                     : "border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20"
@@ -222,16 +222,16 @@ export default function Pricing() {
                     <h4 className="text-lg font-black tracking-tight">{plan.name}</h4>
                     {plan.popular && <Sparkles className="w-5 h-5 text-amber-500" />}
                   </div>
-                  <p className="text-xs opacity-60 font-semibold mt-2.5 leading-5 min-h-[40px]">
+                  <p className="text-xs opacity-60 font-semibold mt-2 leading-5 min-h-[40px]">
                     {plan.description}
                   </p>
 
-                  <div className="mt-6 mb-6">
+                  <div className="mt-4 mb-4">
                     <span className="text-3xl font-black tracking-tight">{plan.price}</span>
                     <span className="text-xs opacity-60 font-bold">{plan.period}</span>
                   </div>
 
-                  <ul className="space-y-4 border-t border-black/5 dark:border-white/5 pt-6">
+                  <ul className="space-y-3 border-t border-black/5 dark:border-white/5 pt-4">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3 text-xs font-semibold">
                         <div className="w-4.5 h-4.5 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0 mt-0.5">
@@ -243,7 +243,7 @@ export default function Pricing() {
                   </ul>
                 </div>
 
-                <div className="mt-8 pt-4">
+                <div className="mt-6 pt-3">
                   <a
                     href={`https://wa.me/918860384919?text=${encodeURIComponent(plan.whatsappText)}`}
                     target="_blank"
@@ -263,7 +263,7 @@ export default function Pricing() {
         </div>
 
         {/* Need a Custom Solution Callout */}
-        <div className="glass-panel border border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 rounded-3xl p-8 max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg shadow-black/5">
+        <div className="glass-panel border border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 rounded-3xl p-6 max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg shadow-black/5">
           <div className="text-left">
             <h4 className="text-lg font-black tracking-tight">Need a Custom Solution?</h4>
             <p className="text-xs opacity-60 font-semibold mt-1">

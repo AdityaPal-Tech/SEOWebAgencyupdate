@@ -125,7 +125,7 @@ export default function ServicesGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((svc) => (
           <ServiceCard key={svc.title} service={svc} onOpenDetails={setSelectedService} />
         ))}
@@ -296,7 +296,7 @@ function ServiceCard({ service, onOpenDetails }: { service: Service; onOpenDetai
         transform: "perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale3d(1, 1, 1)",
         transition: "transform 0.1s ease, border-color 0.3s ease, box-shadow 0.3s ease",
       }}
-      className={`glass-panel border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 rounded-3xl p-6 relative overflow-hidden group hover:border-primary/20 dark:hover:border-primary/20 hover:shadow-2xl hover:shadow-indigo-500/5 cursor-pointer flex flex-col justify-between min-h-[380px]`}
+      className={`glass-panel border-black/5 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 rounded-3xl p-5 relative overflow-hidden group hover:border-primary/20 dark:hover:border-primary/20 hover:shadow-2xl hover:shadow-indigo-500/5 cursor-pointer flex flex-col justify-between min-h-[340px]`}
     >
       {/* Light glow following the mouse */}
       <div
@@ -310,7 +310,7 @@ function ServiceCard({ service, onOpenDetails }: { service: Service; onOpenDetai
 
       <div>
         {/* Header Icon */}
-        <div className="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform duration-300">
+        <div className="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
           <Icon className="w-6 h-6" />
         </div>
 
@@ -318,14 +318,14 @@ function ServiceCard({ service, onOpenDetails }: { service: Service; onOpenDetai
         <h4 className="text-lg font-extrabold tracking-tight group-hover:text-primary transition-colors">
           {service.title}
         </h4>
-        <p className="text-xs opacity-65 mt-2.5 font-medium leading-5">
+        <p className="text-xs opacity-65 mt-2 font-medium leading-5">
           {service.description}
         </p>
 
         {/* Benefits checklist */}
-        <ul className="mt-5 space-y-2 border-t border-black/5 dark:border-white/5 pt-4">
+        <ul className="mt-4 space-y-2 border-t border-black/5 dark:border-white/5 pt-3">
           {service.benefits.map((benefit) => (
-            <li key={benefit} className="flex items-start gap-2 text-[11px] opacity-75 font-semibold leading-4">
+            <li key={benefit} className="flex items-start gap-1.5 text-[11px] opacity-75 font-semibold leading-4">
               <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
               <span>{benefit}</span>
             </li>
@@ -334,7 +334,7 @@ function ServiceCard({ service, onOpenDetails }: { service: Service; onOpenDetai
       </div>
 
       {/* Outcome Badge & Learn more action */}
-      <div className="mt-6 flex items-center justify-between border-t border-black/5 dark:border-white/5 pt-4">
+      <div className="mt-5 flex items-center justify-between border-t border-black/5 dark:border-white/5 pt-3">
         <div>
           <span className="text-[9px] uppercase font-bold opacity-50 tracking-wider">Estimated Outcome</span>
           <p className="text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">{service.outcome}</p>
