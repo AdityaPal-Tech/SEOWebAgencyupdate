@@ -102,7 +102,7 @@ export default function Navbar() {
           {/* Call CTA */}
           <a
             href="tel:+918803511070"
-            className="flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-full border border-black/10 dark:border-white/5 bg-white/50 dark:bg-zinc-900/50 hover:bg-black/5 dark:hover:bg-white/10 transition-all shadow-sm"
+            className="flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-full border border-black/10 dark:border-white/5 bg-white/50 dark:bg-zinc-900/50 hover:bg-black/5 dark:hover:bg-white/10 transition-all shadow-sm whitespace-nowrap shrink-0"
           >
             <Phone className="w-3.5 h-3.5 text-indigo-500" />
             +91 8803511070
@@ -113,7 +113,7 @@ export default function Navbar() {
             href="https://wa.me/918860384919?text=Hello%20SEOWebAgency,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-all shadow-sm"
+            className="flex items-center gap-1.5 text-xs font-bold px-4 py-2.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-all shadow-sm whitespace-nowrap shrink-0"
           >
             <MessageSquare className="w-4 h-4" />
             WhatsApp
@@ -121,8 +121,8 @@ export default function Navbar() {
 
           {/* Consultation CTA */}
           <a
-            href="#contact"
-            className="text-xs font-bold px-5 py-2.5 rounded-full bg-primary text-white hover:bg-indigo-600 shadow-md shadow-indigo-500/25 transition-all"
+            href="/#contact"
+            className="text-xs font-bold px-5 py-2.5 rounded-full bg-primary text-white hover:bg-indigo-600 shadow-md shadow-indigo-500/25 transition-all whitespace-nowrap shrink-0"
           >
             Book Free Call
           </a>
@@ -188,7 +188,7 @@ export default function Navbar() {
                 Chat on WhatsApp
               </a>
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-center font-bold py-3 rounded-xl bg-primary text-white shadow-lg shadow-indigo-500/20"
               >
