@@ -684,10 +684,10 @@ export default function Home() {
             </span>
           </div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">
+            <a href="/terms" className="hover:text-primary transition-colors">
               Terms & Protocols
             </a>
-            <a href="#" className="hover:text-primary transition-colors">
+            <a href="/privacy" className="hover:text-primary transition-colors">
               Privacy Shield
             </a>
           </div>

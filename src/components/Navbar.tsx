@@ -44,14 +44,14 @@ export default function Navbar() {
   };
 
   const navItems = [
-    { label: "Home", href: "#home" },
-    { label: "Services", href: "#services" },
-    { label: "Solutions", href: "#solutions" },
-    { label: "Results", href: "#results" },
-    { label: "About", href: "#about" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home", href: "/#home" },
+    { label: "Services", href: "/#services" },
+    { label: "Solutions", href: "/#solutions" },
+    { label: "Results", href: "/#results" },
+    { label: "About", href: "/about" },
+    { label: "Testimonials", href: "/#testimonials" },
+    { label: "Pricing", href: "/#pricing" },
+    { label: "Contact", href: "/#contact" },
   ];
 
   return (
