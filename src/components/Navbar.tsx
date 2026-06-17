@@ -92,11 +92,10 @@ export default function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
           ? "py-3 bg-white/70 dark:bg-black/70 backdrop-blur-xl border-b border-black/5 dark:border-white/5 shadow-lg shadow-black/5"
           : "py-5 bg-transparent"
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo (Increased size by ~12.5% and optimized prominence) */}
@@ -123,7 +122,7 @@ export default function Navbar() {
 
         {/* Desktop CTAs (Perfect inline alignment and equal heights) */}
         <div className="hidden lg:flex items-center gap-3">
-          
+
           {/* Theme switcher with separator gap */}
           <div ref={dropdownRef} className="relative mr-2 pr-4 border-r border-black/10 dark:border-white/5 flex items-center">
             <button
@@ -151,14 +150,13 @@ export default function Navbar() {
                       localStorage.setItem("theme", "light");
                       setShowThemeDropdown(false);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${
-                      theme === "light"
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${theme === "light"
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-black/5 dark:hover:bg-white/5 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                   >
                     <Sun className="w-3.5 h-3.5 text-amber-500" />
-                    <span>Light ☀️</span>
+                    <span>Light</span>
                   </button>
                   <button
                     onClick={() => {
@@ -166,14 +164,13 @@ export default function Navbar() {
                       localStorage.setItem("theme", "dark");
                       setShowThemeDropdown(false);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${
-                      theme === "dark"
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${theme === "dark"
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-black/5 dark:hover:bg-white/5 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                   >
                     <Moon className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
-                    <span>Dark 🌙</span>
+                    <span>Dark</span>
                   </button>
                   <button
                     onClick={() => {
@@ -181,14 +178,13 @@ export default function Navbar() {
                       localStorage.setItem("theme", "system");
                       setShowThemeDropdown(false);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${
-                      theme === "system"
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${theme === "system"
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-black/5 dark:hover:bg-white/5 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                   >
                     <Laptop className="w-3.5 h-3.5 text-zinc-500" />
-                    <span>System 💻</span>
+                    <span>System</span>
                   </button>
                 </motion.div>
               )}
@@ -226,7 +222,7 @@ export default function Navbar() {
 
         {/* Mobile Action Buttons (Menu & Theme toggle) */}
         <div className="flex lg:hidden items-center gap-3">
-          
+
           {/* Mobile Theme Toggle dropdown */}
           <div ref={mobileDropdownRef} className="relative">
             <button
@@ -254,11 +250,10 @@ export default function Navbar() {
                       localStorage.setItem("theme", "light");
                       setShowMobileThemeDropdown(false);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${
-                      theme === "light"
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${theme === "light"
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-black/5 dark:hover:bg-white/5 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                   >
                     <Sun className="w-3.5 h-3.5 text-amber-500" />
                     <span>Light ☀️</span>
@@ -269,11 +264,10 @@ export default function Navbar() {
                       localStorage.setItem("theme", "dark");
                       setShowMobileThemeDropdown(false);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${
-                      theme === "dark"
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${theme === "dark"
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-black/5 dark:hover:bg-white/5 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                   >
                     <Moon className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
                     <span>Dark 🌙</span>
@@ -284,11 +278,10 @@ export default function Navbar() {
                       localStorage.setItem("theme", "system");
                       setShowMobileThemeDropdown(false);
                     }}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${
-                      theme === "system"
+                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-bold rounded-xl text-left transition-colors cursor-pointer ${theme === "system"
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-black/5 dark:hover:bg-white/5 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                   >
                     <Laptop className="w-3.5 h-3.5 text-zinc-500" />
                     <span>System 💻</span>

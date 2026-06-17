@@ -71,6 +71,41 @@ export default function Home() {
     requestAnimationFrame(animate);
   }, []);
 
+  // States for Live SEO Trajectory Visual Card
+  const [secondsSinceUpdate, setSecondsSinceUpdate] = useState(2);
+  const [trajectoryHeights, setTrajectoryHeights] = useState([40, 25, 60, 50, 75, 95, 80, 110, 130]);
+  const [activeTargetValue, setActiveTargetValue] = useState(312);
+
+  // Interval effect to animate the chart data in real-time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSecondsSinceUpdate((prev) => {
+        if (prev >= 4) {
+          // Trigger fluctuation update
+          setTrajectoryHeights((current) =>
+            current.map((h, i) => {
+              if (i === 8) {
+                // Fluctuates active target between 125% and 135%
+                return 130 + Math.floor(Math.random() * 11) - 5;
+              }
+              const change = Math.floor(Math.random() * 7) - 3; // -3 to +3
+              const base = [40, 25, 60, 50, 75, 95, 80, 110][i];
+              return Math.max(base - 8, Math.min(base + 8, h + change));
+            })
+          );
+          setActiveTargetValue((prevTarget) => {
+            const change = Math.floor(Math.random() * 5) - 2; // -2 to +2
+            return Math.max(305, Math.min(320, prevTarget + change));
+          });
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -208,7 +243,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-5 hidden lg:block perspective-[1000px]"
           >
-            <div className="glass-panel border-white/10 dark:border-white/5 bg-white/20 dark:bg-zinc-950/20 p-5 rounded-3xl relative animate-float shadow-2xl">
+            <div className="glass-panel border border-black/10 dark:border-white/5 bg-white/70 dark:bg-zinc-950/20 p-5 rounded-3xl relative animate-float shadow-2xl">
               <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
               <div className="flex items-center gap-3 border-b border-black/5 dark:border-white/5 pb-3 mb-3">
                 <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-primary">
@@ -216,23 +251,33 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="font-extrabold text-xs">Live SEO Trajectory</h3>
-                  <p className="text-[10px] opacity-50 font-semibold">Updated 2s ago</p>
+                  <p className="text-[10px] opacity-50 font-semibold">Updated {secondsSinceUpdate}s ago</p>
                 </div>
               </div>
 
               {/* Dotted visual grid */}
               <div className="h-40 relative flex items-end justify-between gap-1.5 border-b border-black/5 dark:border-white/5 pb-1">
-                {[40, 25, 60, 50, 75, 95, 80, 110, 130].map((h, i) => (
+                {trajectoryHeights.map((h, i) => (
                   <div key={i} className="flex-1 flex flex-col justify-end items-center h-full">
                     <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: `${h}%` }}
-                      transition={{ duration: 1.2, delay: i * 0.08, ease: "easeOut" }}
+                      transition={
+                        i === 8
+                          ? { type: "spring", stiffness: 80, damping: 15 }
+                          : { duration: 0.5, ease: "easeInOut" }
+                      }
                       className={`w-full rounded-t-lg bg-gradient-to-t ${
-                        i === 8 ? "from-indigo-500 to-cyan-500" : "from-black/10 to-black/20 dark:from-white/5 dark:to-white/10"
+                        i === 8
+                          ? "from-indigo-500 via-indigo-600 to-cyan-500 shadow-[0_0_12px_rgba(99,102,241,0.4)]"
+                          : "from-black/10 to-black/20 dark:from-white/5 dark:to-white/10"
                       } relative`}
                     >
-                      {i === 8 && <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-cyan-400">+312%</span>}
+                      {i === 8 && (
+                        <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-extrabold text-indigo-600 dark:text-cyan-400 whitespace-nowrap animate-pulse">
+                          +{activeTargetValue}%
+                        </span>
+                      )}
                     </motion.div>
                   </div>
                 ))}
