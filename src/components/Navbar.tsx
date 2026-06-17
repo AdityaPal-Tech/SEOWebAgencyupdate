@@ -198,10 +198,10 @@ export default function Navbar() {
           {/* Call CTA */}
           <a
             href="tel:+918803511070"
-            className="h-[38px] flex items-center justify-center gap-1.5 text-xs font-bold px-5 rounded-full border border-black/10 dark:border-white/5 bg-white/50 dark:bg-zinc-900/50 hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition-all shadow-sm whitespace-nowrap shrink-0"
+            aria-label="Call Us"
+            className="p-2.5 rounded-full border border-black/10 dark:border-white/5 bg-white/50 dark:bg-zinc-900/50 hover:bg-black/5 dark:hover:bg-white/10 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
           >
-            <Phone className="w-3.5 h-3.5 text-indigo-500" />
-            +91 8803511070
+            <Phone className="w-4 h-4 text-indigo-500" />
           </a>
 
           {/* WhatsApp CTA */}
@@ -209,10 +209,10 @@ export default function Navbar() {
             href="https://wa.me/918860384919?text=Hello%20SEOWebAgency,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
             target="_blank"
             rel="noopener noreferrer"
-            className="h-[38px] flex items-center justify-center gap-1.5 text-xs font-bold px-5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-all shadow-sm whitespace-nowrap shrink-0 active:scale-95"
+            aria-label="Chat on WhatsApp"
+            className="p-2.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/20 active:scale-95 transition-all cursor-pointer flex items-center justify-center shrink-0"
           >
             <MessageSquare className="w-4 h-4 text-emerald-500" />
-            WhatsApp
           </a>
 
           {/* Contact / Consultation CTA */}
