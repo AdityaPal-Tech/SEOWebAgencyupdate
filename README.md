@@ -1,4 +1,4 @@
-# SEOWebAgency - AI-Powered SEO & Digital Growth Platform
+# SEOWebAgency - SEO & Digital Growth Platform
 
 SEOWebAgency is a state-of-the-art, high-performance web platform designed to automate search optimization diagnostics, showcase growth metrics, and generate qualified inbound leads. Built with Next.js 16, React 19, Tailwind CSS v4, and Three.js WebGL graphics, the platform delivers a premium, fast, and interactive user experience.
 
