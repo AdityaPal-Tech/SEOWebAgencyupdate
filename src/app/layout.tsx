@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "SEOWebAgency | AI-Powered SEO & Digital Growth Solutions",
+  title: "SEOWebAgency | SEO & Digital Growth Solutions",
   description: "Accelerate your business with SEOWebAgency. We build high-conversion websites, generate qualified leads, optimize Google Business Profiles, and scale organic search traffic with advanced AI-powered strategies.",
   keywords: ["SEO Services", "Website Development", "Local SEO", "Google Business Profile Optimization", "AI Automation", "Lead Generation", "Digital Marketing"],
   authors: [{ name: "SEOWebAgency" }],
