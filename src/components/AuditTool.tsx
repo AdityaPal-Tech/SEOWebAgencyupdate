@@ -93,7 +93,7 @@ export default function AuditTool() {
             Diagnostics
           </span>
           <h3 className="text-2xl md:text-3xl font-extrabold mt-3 tracking-tight">
-            Run a Free AI SEO Audit
+            Run a Free SEO Audit
           </h3>
           <p className="text-sm opacity-60 mt-2 max-w-md mx-auto">
             Scan your website to check core vitals, organic rankings, search index, and metadata instantly.
