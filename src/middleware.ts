@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   // Retrieve the response
   const response = NextResponse.next();
 
@@ -62,7 +62,7 @@ export function proxy(request: NextRequest) {
   return response;
 }
 
-// Apply proxy matchers to all application request patterns
+// Apply middleware matchers to all application request patterns
 export const config = {
   matcher: [
     /*
